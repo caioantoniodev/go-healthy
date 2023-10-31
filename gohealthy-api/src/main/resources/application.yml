@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: go-healthy-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gohealthy_api
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    show_sql: true
+    hibernate:
+      ddl-auto: update
+server:
+  port: 8080
+  cors:
+    allow:
+      methods: POST,PUT,GET,OPTIONS,DELETE
+      headers: Origin,Content-type,Accept
+      origin: "*"
+springdoc:
+  swagger-ui:
+    path: '/swagger-ui.html'

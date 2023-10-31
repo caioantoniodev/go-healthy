@@ -1,0 +1,58 @@
+@startuml
+
+class User {
+  - id: UUID_V4
+  - name: String
+  - lastName: String
+  - phone: String
+  - age: int
+  - healthEvents: List<HealthEvent>
+  - addresses: List<Address>
+}
+
+class Address {
+  - id: UUID_V4
+  - postalCode: String
+  - complement: String
+  - number: Long
+}
+
+class HealthEvent {
+  - id: UUID_V4
+  - description: String
+  - createdAt: ZonedDateTime
+}
+
+class Doctor {
+  - id: UUID_V4
+  - name: String
+  - medicalSpecialty: List<MedicalSpeciality>
+}
+
+class MedicalSpeciality {
+  - id: UUID_V4
+  - name: String
+}
+
+class Schedule {
+  - id: UUID_V4
+  - schedulingDateTime: ZonedDateTime
+  - user: User
+  - doctor: Doctor
+  + retrieveSchedules(): List<Schedule>
+  + schedule(hour: ZonedDateTime, userId: UUID_V4): void
+}
+
+class OpenHealthConnector {
+  - uri: String
+  + sync(userId: UUID_V4): void
+}
+
+User --> Doctor : Consulta
+User --> HealthEvent : Histórico de Patologias
+User --> Address : Endereços
+User --> Schedule : Marca Consulta
+User --> OpenHealthConnector : Sincroniza Informações
+Doctor -> MedicalSpeciality : Tem especialidades
+OpenHealthConnector --> HealthEvent : Atualiza Informações
+@enduml

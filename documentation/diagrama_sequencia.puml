@@ -1,0 +1,46 @@
+@startuml
+!define RECTANGLE class
+!define ACTOR actor
+
+actor Paciente as P
+actor Atendente as A
+actor Médico as M
+
+P -> A : Marcar Consulta
+activate A
+
+A -> A : Verificar Disponibilidade
+A -> API : Verificar Agenda do Dia
+activate API
+
+API -> A : Agenda do Dia Disponível
+A -> API : Escolher Horário
+API -> A : Confirmação do Horário
+A -> API : Registra Consulta
+API --> A : Confirmação de Agendamento
+deactivate API
+
+A -> P : Confirmação da Consulta
+deactivate A
+
+A -> A : Acessar Histórico de Patologias
+A -> API : Acessar Histórico
+activate API
+
+API -> A : Histórico de Patologias
+A -> API : Registrar Informações
+API --> A : Informações Registradas
+deactivate API
+
+A -> A : Sincronizar Informações Open Health
+A -> API : Sincronizar Informações
+activate API
+
+API -> A : Informações Sincronizadas
+deactivate API
+
+A -> A : Gerenciar Atendimento
+A -> A : Verificar Agenda do Dia
+A -> A : Gerenciar Horas Vagas
+A -> A : Verificar Médicos Disponíveis
+@enduml

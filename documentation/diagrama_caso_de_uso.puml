@@ -1,0 +1,25 @@
+@startuml
+!define RECTANGLE class
+!define ACTOR actor
+
+actor Paciente as P
+actor Atendente as A
+actor Médico as M
+
+rectangle "Gestão de Pacientes e Clínica com Marcação de Consultas Multicanal" as Sistema {
+  P -- (Marcar Consulta)
+  A -- (Gerenciar Atendimento)
+  A -- (Acessar Histórico de Patologias)
+  A -- (Sincronizar Informações Open Health)
+  (Marcar Consulta) -- A : Verifica Disponibilidade
+  (Marcar Consulta) -- Sistema : Registra Consulta
+  (Marcar Consulta) -- P : Confirmação da Consulta
+  (Acessar Histórico de Patologias) -- A : Acessa Histórico
+  (Acessar Histórico de Patologias) -- Sistema : Registra Informações
+  (Sincronizar Informações Open Health) -- A : Sincroniza Informações
+  (Gerenciar Atendimento) -- (Verificar Agenda do Dia)
+  (Gerenciar Atendimento) -- (Gerenciar Horas Vagas)
+  (Gerenciar Atendimento) -- (Verificar Médicos Disponíveis)
+}
+
+@enduml

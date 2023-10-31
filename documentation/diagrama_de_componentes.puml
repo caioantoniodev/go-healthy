@@ -1,0 +1,33 @@
+@startuml
+!define RECTANGLE component
+!define DATABASE database
+!define CLOUD cloud
+
+rectangle "Front-end\nJavascript, Node JS, EJS" as FrontEndComponent {
+  [Página de Marcação de Consulta]
+  [Painel de Atendente]
+  [Painel de Médico]
+}
+
+rectangle "Back-end\nJava, Spring Boot" as BackEndComponent {
+  [Controladores]
+  [Serviços]
+  [Repositórios]
+  [Agenda]
+  [OpenHealthConnector]
+}
+
+database "Banco de Dados\nPostgreSQL" as DatabaseComponent {
+  [Tabelas]
+}
+
+cloud "Orquestração\nDocker, Kubernetes" as InfraComponent {
+  [Containers Docker]
+  [Kubernetes Orquestrador]
+}
+
+FrontEndComponent --> BackEndComponent : Requisições HTTP
+BackEndComponent --> DatabaseComponent : Consultas SQL
+BackEndComponent --> InfraComponent : Implantação em Contêineres
+BackEndComponent --> InfraComponent : Escalabilidade com Kubernetes
+@enduml
