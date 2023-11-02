@@ -28,9 +28,12 @@ class Home extends React.Component {
             doctors: [],
             patientId: "",
             patients: [],
+            scheduleId: "",
             schedules: [],
             statusError: 0,
             showError: false,
+            showSuccessForm1: false,
+            showSuccessForm2: false,
         };
     }
 
@@ -51,6 +54,17 @@ class Home extends React.Component {
             .get(uriSchedules)
             .then((response) => {
                 this.setState({schedules: response.data});
+
+                if (response.data.length > 0) {
+                    this.setState({
+                        scheduleId: response.data[0].id
+                    });
+                } else {
+                    this.setState({
+                        scheduleId: ""
+                    });
+                }
+
             })
             .catch((err) => {
                 this.handleError(true, err);
@@ -82,10 +96,15 @@ class Home extends React.Component {
         });
     };
 
+    setScheduleId = (e) => {
+        this.setState({
+            scheduleId: e.target.value
+        });
+    };
+
     setSelectedDate = (date) => {
         this.setState({selectedDate: date});
     }
-
 
     handleError = (status, err) => {
         this.setState({
@@ -95,6 +114,20 @@ class Home extends React.Component {
         this.setState({
             statusError: err,
         });
+    }
+
+    handleSuccessForm1 = (status) => {
+        this.setState({
+            showSuccessForm1: status,
+        });
+
+    }
+
+    handleSuccessForm2 = (status) => {
+        this.setState({
+            showSuccessForm2: status,
+        });
+
     }
 
     createSchedule = () => {
@@ -117,8 +150,9 @@ class Home extends React.Component {
         })
             .then((response) => {
                 if (response.status > 200 && response.status < 300) {
-                    this.setSelectedDate(new Date())
-                    this.retrieveSchedules()
+                    this.setSelectedDate(new Date());
+                    this.retrieveSchedules();
+                    this.handleSuccessForm1(true);
                 }
             })
             .catch((err) => {
@@ -127,12 +161,23 @@ class Home extends React.Component {
 
     }
 
+    deleteSchedule = (id) => {
+        axios.delete(`${uriSchedules}/${id}`)
+            .then((response) => {
+                if (response.status > 200 && response.status < 300) {
+                    this.retrieveSchedules()
+                    this.handleSuccessForm2(true);
+                }
+            })
+            .catch((err) => {
+                this.handleError(true, err);
+            });
+    }
+
     componentDidMount() {
         this.retrieveDoctors();
         this.retrievePatients();
         this.retrieveSchedules();
-
-        console.log()
     }
 
     render() {
@@ -149,6 +194,15 @@ class Home extends React.Component {
 
                     <Row>
                         <Col sm={3}>
+
+                            {this.state.showSuccessForm1 &&
+                                <Alert variant="success" onClose={() => this.handleSuccessForm1(false)} on dismissible>
+                                    <p>
+                                        Agendado com sucesso!
+                                    </p>
+                                </Alert>
+                            }
+
                             <h6> Marcar consulta</h6>
 
                             <Form>
@@ -191,17 +245,30 @@ class Home extends React.Component {
 
                         </Col>
                         <Col sm={3}>
+
+                            {this.state.showSuccessForm2 &&
+                                <Alert variant="success" onClose={() => this.handleSuccessForm2(false)} on dismissible>
+                                    <p>
+                                        Desmarcado com sucesso!
+                                    </p>
+                                </Alert>
+                            }
+
                             <h6> Desmarcar consulta</h6>
 
                             <Form>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label>Escolha uma consulta</Form.Label>
-                                    <Form.Select size="sm">
-                                        <option>Médico</option>
+                                    <Form.Select size="sm" onChange={this.setScheduleId}>
+                                        {this.state.schedules.map((schedule) => (
+                                            <option key={schedule.id}
+                                                    value={schedule.id}>{schedule.patient.firstName} {schedule.patient.lastName} - {schedule.schedulingDateTime}</option>
+                                        ))}
                                     </Form.Select>
                                 </Form.Group>
 
-                                <Button variant="primary" size="sm" onClick={this.handleShow}>
+                                <Button variant="primary" size="sm"
+                                        onClick={() => this.deleteSchedule(this.state.scheduleId)}>
                                     Desmarcar
                                 </Button>
                             </Form>
@@ -221,7 +288,7 @@ class Home extends React.Component {
                                 {this.state.schedules.map((schedule) => (
                                     <tr key={schedule.id}>
                                         <td>{schedule.doctor.name}</td>
-                                        <td>{schedule.patient.firstName}</td>
+                                        <td>{schedule.patient.firstName} {schedule.patient.lastName}</td>
                                         <td>{schedule.schedulingDateTime}</td>
                                         <td>{schedule.doctor.medicalSpeciality.name}</td>
                                     </tr>

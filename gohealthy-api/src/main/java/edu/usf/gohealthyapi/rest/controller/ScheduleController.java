@@ -28,6 +28,13 @@ public class ScheduleController {
                 .body(scheduleService.findScheduleByPatientId(patientId));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?>deleteSchedule(@PathVariable("id") String scheduleId) {
+        scheduleService.unschedule(scheduleId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @GetMapping
     public ResponseEntity<?> getScheduleByPatient() {
         return ResponseEntity.status(HttpStatus.OK)

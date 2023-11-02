@@ -49,4 +49,8 @@ public class ScheduleService {
                 .map(scheduleMapper::toModel)
                 .toList();
     }
+
+    public void unschedule(String scheduleId) {
+        scheduleRepository.deleteById(UUID.fromString(scheduleId));
+    }
 }
