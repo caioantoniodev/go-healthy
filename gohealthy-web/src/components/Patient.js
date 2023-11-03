@@ -18,7 +18,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const uri = "http://localhost:8080/api/v1/patients";
 const uriSchedules = "http://localhost:8080/api/v1/schedules";
 
-export class Patient extends React.Component {
+export default class Patient extends React.Component {
 
     constructor(props) {
         super(props);

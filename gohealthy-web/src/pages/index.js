@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Container from "react-bootstrap/Container";
-import {Nav} from "react-bootstrap";
-import {Patient} from "@/components/Patient";
+import Patient from "@/components/Patient";
 import Doctor from "@/components/Doctor";
 import Home from "@/components/Home";
+
+import {Nav} from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function Index() {
 
