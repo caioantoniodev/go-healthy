@@ -2,6 +2,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Roboto } from 'next/font/google';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const roboto = Roboto({
     subsets: ['latin'],
     weight: '500',
@@ -9,7 +11,7 @@ const roboto = Roboto({
 
 const NotFound = () => {
     return (
-        <>
+        <div className="p-4">
             <Head>
                 <title>404</title>
             </Head>
@@ -26,7 +28,7 @@ const NotFound = () => {
                     Ir para a Página Inicial
                 </Link>
             </div>
-        </>
+        </div>
     );
 };
 
