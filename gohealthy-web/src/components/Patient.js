@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import axios from "axios";
 
@@ -14,10 +15,10 @@ import Alert from 'react-bootstrap/Alert';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const uri = "/api/v1/patients";
-const uriSchedules = "/api/v1/schedules";
+const uri = "http://localhost:8080/api/v1/patients";
+const uriSchedules = "http://localhost:8080/api/v1/schedules";
 
-class Patient extends React.Component {
+export class Patient extends React.Component {
 
     constructor(props) {
         super(props);
@@ -236,7 +237,6 @@ class Patient extends React.Component {
                                         <div>
                                             <Button className="btn btn-info" size="sm"
                                                     onClick={() => this.retrievePatientDetail(patient.id)}>Exibir</Button> {' '}
-                                            <Button className="btn btn-warning" size="sm">Atualizar</Button> {' '}
                                             <Button className="btn btn-danger" size="sm"
                                                     onClick={() => this.removePatient(patient.id)}>Excluir</Button>
                                         </div>
@@ -252,7 +252,7 @@ class Patient extends React.Component {
                             Adicionar
                         </Button>
                         {' '}
-                        <Button variant="secondary" size="sm" >
+                        <Button variant="secondary" size="sm">
                             Sincronizar
                         </Button>
                     </div>
@@ -432,7 +432,7 @@ class Patient extends React.Component {
                                         readOnly
                                     />
                                 </Form.Group>
-                                
+
                                 <Form.Group className="mb-3">
                                     <Form.Label>Complemento</Form.Label>
                                     <Form.Control
@@ -520,14 +520,12 @@ class Patient extends React.Component {
                             </Tab.Container>
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button onClick={this.handleCloseModal2} size="sm" >Fechar</Button>
+                            <Button onClick={this.handleCloseModal2} size="sm">Fechar</Button>
                         </Modal.Footer>
                     </Modal>
                 </Container>
             </>
-        )
-            ;
+        );
     }
 }
 
-export default Patient;

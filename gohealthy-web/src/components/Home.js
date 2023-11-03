@@ -1,4 +1,7 @@
-import React from "react";
+'use client'
+import React from 'react';
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import {format, utcToZonedTime, zonedTimeToUtc} from 'date-fns-tz';
 
 import Container from 'react-bootstrap/Container';
@@ -13,11 +16,11 @@ import axios from "axios";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const uriDoctors = "/api/v1/doctors";
-const uriPatients = "/api/v1/patients";
-const uriSchedules = "/api/v1/schedules";
+const uriDoctors = "http://localhost:8080/api/v1/doctors";
+const uriPatients = "http://localhost:8080/api/v1/patients";
+const uriSchedules = "http://localhost:8080/api/v1/schedules";
 
-class Home extends React.Component {
+export default class Home extends React.Component {
 
     constructor(props) {
         super(props);
@@ -303,5 +306,3 @@ class Home extends React.Component {
         )
     }
 }
-
-export default Home;

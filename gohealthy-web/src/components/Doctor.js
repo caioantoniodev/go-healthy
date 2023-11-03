@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React from 'react';
 import axios from "axios";
 
 import Container from "react-bootstrap/Container";
@@ -12,10 +13,10 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
-const uriDefault = "/api/v1/doctors";
-const uriSpeciality = "/api/v1/specialities";
+const uriDefault = "http://localhost:8080/api/v1/doctors";
+const uriSpeciality = "http://localhost:8080/api/v1/specialities";
 
-class Doctor extends React.Component {
+export default class Doctor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -121,6 +122,7 @@ class Doctor extends React.Component {
             statusError: err,
         });
     }
+
     componentDidMount() {
         this.retrieveSpecialities();
         this.retrieveDoctors();
@@ -216,5 +218,3 @@ class Doctor extends React.Component {
         );
     }
 }
-
-export default Doctor;

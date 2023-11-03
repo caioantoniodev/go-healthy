@@ -15,11 +15,6 @@ spring:
       ddl-auto: update
 server:
   port: 8080
-  cors:
-    allow:
-      methods: POST,PUT,GET,OPTIONS,DELETE
-      headers: Origin,Content-type,Accept
-      origin: "*"
 springdoc:
   swagger-ui:
     path: '/swagger-ui.html'
