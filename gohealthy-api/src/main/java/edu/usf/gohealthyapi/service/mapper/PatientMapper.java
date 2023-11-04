@@ -4,7 +4,11 @@ import edu.usf.gohealthyapi.entity.Patient;
 import edu.usf.gohealthyapi.rest.model.PatientModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Mapper(componentModel = "spring")
 public interface PatientMapper {

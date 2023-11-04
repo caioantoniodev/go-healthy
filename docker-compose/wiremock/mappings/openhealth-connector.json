@@ -1,6 +1,6 @@
 {
   "request": {
-    "method": "GET",
+    "method": "POST",
     "url": "/api-connector/v1/health-events"
   },
   "response": {

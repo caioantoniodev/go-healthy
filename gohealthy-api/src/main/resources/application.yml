@@ -22,3 +22,5 @@ management:
 springdoc:
   swagger-ui:
     path: '/swagger-ui.html'
+health-event-connector:
+  uri: "http://localhost:9999/api-connector/v1/health-events"

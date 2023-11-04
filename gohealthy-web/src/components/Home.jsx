@@ -220,7 +220,7 @@ export default class Home extends React.Component {
                                 </Form.Group>
 
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Escolha o médico</Form.Label>
+                                    <Form.Label>Escolha o paciente</Form.Label>
                                     <Form.Select size="sm" onChange={this.setPatientId}>
                                         {this.state.patients.map((patient) => (
                                             <option key={patient.id} value={patient.id}>{patient.firstName}</option>

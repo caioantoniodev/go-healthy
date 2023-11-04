@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Patient from '@/components/Patient';
 import Doctor from '@/components/Doctor';
+import MedicalSpeciality from '@/components/MedicalSpeciality';
 import Home from '@/components/Home';
 
 import { Nav } from 'react-bootstrap';
@@ -28,11 +29,15 @@ function Index() {
             <Nav.Link onClick={() => setSelectedComponent('doctor')}>
               Médicos
             </Nav.Link>
+            <Nav.Link onClick={() => setSelectedComponent('medicalSpeciality')}>
+              Especialidades
+            </Nav.Link>
           </Nav>
 
           {selectedComponent === 'home' && <Home />}
           {selectedComponent === 'patient' && <Patient />}
           {selectedComponent === 'doctor' && <Doctor />}
+          {selectedComponent === 'medicalSpeciality' && <MedicalSpeciality />}
         </div>
       </Container>
     </>

@@ -13,18 +13,14 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 
-const uriDefault = 'http://localhost:8080/api/v1/doctors';
 const uriSpeciality = 'http://localhost:8080/api/v1/specialities';
 
-export default class Doctor extends React.Component {
+export default class MedicalSpeciality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      crm: '',
-      specialityId: '',
       specialities: [],
-      doctors: [],
       modalState: false,
       statusError: 0,
       showError: false,
@@ -37,35 +33,12 @@ export default class Doctor extends React.Component {
     });
   };
 
-  setCrm = (e) => {
-    this.setState({
-      crm: e.target.value,
-    });
-  };
-  setSpeciality = (e) => {
-    this.setState({
-      specialityId: e.target.value,
-    });
-  };
-
-  retrieveDoctors = () => {
-    axios
-      .get(uriDefault)
-      .then((response) => {
-        this.setState({ doctors: response.data });
-      })
-      .catch((err) => {
-        this.handleError(true, err);
-      });
-  };
-
   retrieveSpecialities = () => {
     axios
       .get(uriSpeciality)
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           this.setState({ specialities: response.data });
-          this.setState({ specialityId: response.data[0].id });
         }
       })
       .catch((err) => {
@@ -73,18 +46,15 @@ export default class Doctor extends React.Component {
       });
   };
 
-  createDoctor = () => {
+  createSpeciality = () => {
     axios
-      .post(uriDefault, {
-        name: this.state.name,
-        crm: this.state.crm,
-        medicalSpeciality: {
-          id: this.state.specialityId,
-        },
+      .post(uriSpeciality, {
+        name: this.state.name
       })
       .then((response) => {
-        if (response.status > 200 && response.status < 300)
-          this.retrieveDoctors();
+        if (response.status >= 200 && response.status < 300) {
+          this.retrieveSpecialities();
+        }
       })
       .catch((err) => {
         this.handleError(true, err);
@@ -93,16 +63,16 @@ export default class Doctor extends React.Component {
     this.handleClose();
   };
 
-  removeDoctor = (id) => {
+  removeSpeciality = (id) => {
     axios
-      .delete(`${uriDefault}/${id}`)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 300)
-          this.retrieveDoctors();
-      })
-      .catch((err) => {
-        this.handleError(true, err);
-      });
+        .delete(`${uriSpeciality}/${id}`)
+        .then((response) => {
+          if (response.status > 200 && response.status < 300)
+            this.retrieveSpecialities();
+        })
+        .catch((err) => {
+          this.handleError(true, err);
+        });
   };
 
   handleClose = () =>
@@ -127,7 +97,6 @@ export default class Doctor extends React.Component {
 
   componentDidMount() {
     this.retrieveSpecialities();
-    this.retrieveDoctors();
   }
 
   render() {
@@ -146,20 +115,17 @@ export default class Doctor extends React.Component {
               </Alert>
             )}
 
-            <Row xs={1} md={2} className="g-4">
-              {this.state.doctors.map((doctor) => (
-                <Col key={doctor.id}>
-                  <Card>
+            <Row>
+              {this.state.specialities.map((speciality) => (
+                <Col key={speciality.id}>
+                  <Card style={{ width: '9.1rem' }}>
                     <Card.Body>
-                      <Card.Title>{doctor.name}</Card.Title>
-                      <Card.Subtitle className="mb-2 text-muted">
-                        {doctor.medicalSpeciality.name}
-                      </Card.Subtitle>
-                      <Card.Text>{doctor.crm}</Card.Text>
+                      <Card.Img variant="top" width="80" height="88" src="https://img.icons8.com/3d-fluency/94/medical-doctor--v5.png" />
+                      <Card.Subtitle className="pb-2 pt-2" >{speciality.name}</Card.Subtitle>
                       <Button
                         variant="danger"
                         size="sm"
-                        onClick={() => this.removeDoctor(doctor.id)}
+                        onClick={() => this.removeSpeciality(speciality.id)}
                       >
                         Excluir
                       </Button>
@@ -181,7 +147,7 @@ export default class Doctor extends React.Component {
             <Modal.Body>
               <Form>
                 <Form.Group className="mb-3">
-                  <Form.Label>Nome</Form.Label>
+                  <Form.Label>Nome da Especialidade</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Nome"
@@ -190,26 +156,6 @@ export default class Doctor extends React.Component {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>CRM</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="0000/UF"
-                    value={this.state.crm}
-                    onChange={this.setCrm}
-                  />
-                </Form.Group>
-
-                <Form.Select
-                  aria-label="Default select example"
-                  onChange={this.setSpeciality}
-                >
-                  {this.state.specialities.map((speciality) => (
-                    <option key={speciality.id} value={speciality.id}>
-                      {speciality.name}
-                    </option>
-                  ))}
-                </Form.Select>
                 <Form.Text className="text-muted">
                   Importante! Preencha todos os dados
                 </Form.Text>
@@ -222,7 +168,7 @@ export default class Doctor extends React.Component {
               <Button
                 variant="primary"
                 type="submit"
-                onClick={this.createDoctor}
+                onClick={this.createSpeciality}
               >
                 Salvar
               </Button>

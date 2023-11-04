@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -26,4 +28,7 @@ public class HealthEvent {
     @Column(name = "created_at")
     @CreationTimestamp
     private ZonedDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private Patient patient;
 }
