@@ -1,5 +1,6 @@
 package edu.usf.gohealthyapi.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,5 +20,6 @@ public class HealthEventsModel {
     private String description;
     @JsonProperty("patient")
     private PatientModel patientModel;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     private ZonedDateTime createdAt;
 }
