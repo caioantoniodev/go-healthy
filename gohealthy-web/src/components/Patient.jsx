@@ -17,6 +17,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const uri = 'http://localhost:8080/api/v1/patients';
 const uriSchedules = 'http://localhost:8080/api/v1/schedules';
+const uriSyncEvent = 'http://localhost:8080/api/v1/health-events';
 
 export default class Patient extends React.Component {
     constructor(props) {
@@ -203,6 +204,19 @@ export default class Patient extends React.Component {
         this.handleClose();
     };
 
+    syncEvents = () => {
+        axios
+            .post(uriSyncEvent)
+            .then((response) => {
+                if (response.status > 200 && response.status < 300)
+                    this.retrievePatients();
+            })
+            .catch((err) => {
+                this.handleError(true, err);
+            });
+    };
+
+
     render() {
         return (
             <>
@@ -264,7 +278,7 @@ export default class Patient extends React.Component {
                         <Button variant="primary" onClick={this.handleShow} size="sm">
                             Adicionar
                         </Button>{' '}
-                        <Button variant="secondary" size="sm">
+                        <Button variant="secondary" onClick={this.syncEvents} size="sm">
                             Sincronizar
                         </Button>
                     </div>

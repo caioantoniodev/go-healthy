@@ -45,7 +45,11 @@ export default class Home extends React.Component {
             .get(uriDoctors)
             .then((response) => {
                 this.setState({doctors: response.data});
-                this.setState({doctorId: response.data[0].id});
+                if (response.data.length > 0) {
+                    this.setState({doctorId: response.data[0].id});
+                } else {
+                    this.setState({doctorId: ""});
+                }
             })
             .catch((err) => {
                 this.handleError(true, err);
@@ -80,7 +84,11 @@ export default class Home extends React.Component {
             .get(uriPatients)
             .then((response) => {
                 this.setState({patients: response.data});
-                this.setState({patientId: response.data[0].id});
+                if (response.data.length > 0) {
+                    this.setState({patientId: response.data[0].id});
+                } else {
+                    this.setState({patientId: ""});
+                }
             })
             .catch((err) => {
                 this.handleError(true, err);
