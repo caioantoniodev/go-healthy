@@ -1,10 +1,8 @@
 package edu.usf.gohealthyapi.service;
 
-import edu.usf.gohealthyapi.entity.Schedule;
 import edu.usf.gohealthyapi.repository.ScheduleRepository;
-import edu.usf.gohealthyapi.rest.model.ScheduleModel;
-import edu.usf.gohealthyapi.service.mapper.DoctorMapper;
-import edu.usf.gohealthyapi.service.mapper.PatientMapper;
+import edu.usf.gohealthyapi.rest.model.ScheduleRequestModel;
+import edu.usf.gohealthyapi.rest.model.ScheduleResponseModel;
 import edu.usf.gohealthyapi.service.mapper.ScheduleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +20,11 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    public ScheduleModel createSchedule(ScheduleModel scheduleModel) {
-        var patient = patientService.findPatientById(scheduleModel.getPatientModel().getId());
-        var doctor = doctorService.findDoctorById(scheduleModel.getDoctorModel().getId());
+    public ScheduleResponseModel createSchedule(ScheduleRequestModel scheduleRequestModel) {
+        var patient = patientService.findPatientById(scheduleRequestModel.getPatientModel().getId());
+        var doctor = doctorService.findDoctorById(scheduleRequestModel.getDoctorModel().getId());
 
-        var schedule = scheduleMapper.toEntity(scheduleModel);
+        var schedule = scheduleMapper.toEntity(scheduleRequestModel);
 
         schedule.setDoctor(doctor);
         schedule.setPatient(patient);
@@ -36,14 +34,14 @@ public class ScheduleService {
         return scheduleMapper.toModel(schedulePersisted);
     }
 
-    public List<ScheduleModel> findScheduleByPatientId(String patientId) {
+    public List<ScheduleResponseModel> findScheduleByPatientId(String patientId) {
         var schedules = scheduleRepository.findAllByPatientId(UUID.fromString(patientId));
         return schedules.stream()
                 .map(scheduleMapper::toModel)
                 .toList();
     }
 
-    public List<ScheduleModel> findAllSchedules() {
+    public List<ScheduleResponseModel> findAllSchedules() {
         var schedules = scheduleRepository.findAll();
         return schedules.stream()
                 .map(scheduleMapper::toModel)

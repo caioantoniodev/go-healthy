@@ -1,7 +1,8 @@
 package edu.usf.gohealthyapi.service.mapper;
 
 import edu.usf.gohealthyapi.entity.Schedule;
-import edu.usf.gohealthyapi.rest.model.ScheduleModel;
+import edu.usf.gohealthyapi.rest.model.ScheduleRequestModel;
+import edu.usf.gohealthyapi.rest.model.ScheduleResponseModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -10,9 +11,9 @@ public interface ScheduleMapper {
 
     @Mapping(source = "patientModel", target = "patient")
     @Mapping(source = "doctorModel", target = "doctor")
-    Schedule toEntity(ScheduleModel scheduleModel);
+    Schedule toEntity(ScheduleRequestModel scheduleRequestModel);
 
     @Mapping(source = "patient", target = "patientModel")
     @Mapping(source = "doctor", target = "doctorModel")
-    ScheduleModel toModel(Schedule schedule);
+    ScheduleResponseModel toModel(Schedule schedule);
 }

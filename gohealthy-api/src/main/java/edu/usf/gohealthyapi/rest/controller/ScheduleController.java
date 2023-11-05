@@ -1,13 +1,12 @@
 package edu.usf.gohealthyapi.rest.controller;
 
-import edu.usf.gohealthyapi.rest.model.ScheduleModel;
+import edu.usf.gohealthyapi.rest.model.ScheduleRequestModel;
+import edu.usf.gohealthyapi.rest.model.ScheduleResponseModel;
 import edu.usf.gohealthyapi.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/schedules")
@@ -17,9 +16,9 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<?> postSchedule(@RequestBody ScheduleModel scheduleModel) {
+    public ResponseEntity<?> postSchedule(@RequestBody ScheduleRequestModel scheduleRequestModel) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(scheduleService.createSchedule(scheduleModel));
+                .body(scheduleService.createSchedule(scheduleRequestModel));
     }
 
     @GetMapping("/{patientId}")
